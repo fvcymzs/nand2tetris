@@ -1,0 +1,65 @@
+class Square {
+    field int x, y;
+
+    constructor Square new(int ax, int ay) {
+        let x = ax;
+        let y = ay;
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x*20 + 61, y*20 + 21, x*20 + 79, y*20 + 39);
+        return;
+    }
+
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x*20 + 61, y*20 + 21, x*20 + 79, y*20 + 39);
+        return;
+    }
+
+    method void move() {
+        let x = x + 1;
+        return;
+    }
+
+    method void up() {
+        let y = y - 1;
+        return;
+    }
+
+    method void down() {
+        let y = y + 1;
+        return;
+    }
+
+    method void lrotate(int cx, int cy) {
+        var int tmp;
+        let tmp = x;
+        let x = y - cy + cx;
+        let y = cx + cy - tmp;
+        return;
+    }
+
+    method void rrotate(int cx, int cy) {
+        var int tmp;
+        let tmp = x;
+        let x = cx + cy - y;
+        let y = tmp - cx + cy;
+        return;
+    }
+
+    method int getx() {
+        return x;
+    }
+
+    method int gety() {
+        return y;
+    }
+}

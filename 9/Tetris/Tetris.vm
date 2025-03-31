@@ -1,0 +1,472 @@
+function Tetris.new 0
+push constant 7
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push argument 2
+push argument 2
+push constant 7
+call Math.divide 2
+push constant 7
+call Math.multiply 2
+sub
+pop this 2
+push this 2
+push constant 0
+eq
+not
+if-goto IF_FALSE0
+push argument 0
+push argument 1
+call Square.new 2
+pop this 3
+push argument 0
+push constant 1
+add
+push argument 1
+call Square.new 2
+pop this 4
+push argument 0
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 5
+push argument 0
+push constant 1
+add
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 6
+goto IF_TRUE0
+label IF_FALSE0
+label IF_TRUE0
+push this 2
+push constant 1
+eq
+not
+if-goto IF_FALSE1
+push argument 0
+push argument 1
+call Square.new 2
+pop this 3
+push argument 0
+push argument 1
+push constant 1
+sub
+call Square.new 2
+pop this 4
+push argument 0
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 5
+push argument 0
+push argument 1
+push constant 2
+add
+call Square.new 2
+pop this 6
+goto IF_TRUE1
+label IF_FALSE1
+label IF_TRUE1
+push this 2
+push constant 2
+eq
+not
+if-goto IF_FALSE2
+push argument 0
+push argument 1
+call Square.new 2
+pop this 3
+push argument 0
+push constant 1
+sub
+push argument 1
+call Square.new 2
+pop this 4
+push argument 0
+push constant 1
+add
+push argument 1
+call Square.new 2
+pop this 5
+push argument 0
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 6
+goto IF_TRUE2
+label IF_FALSE2
+label IF_TRUE2
+push this 2
+push constant 3
+eq
+not
+if-goto IF_FALSE3
+push argument 0
+push argument 1
+call Square.new 2
+pop this 3
+push argument 0
+push argument 1
+push constant 1
+sub
+call Square.new 2
+pop this 4
+push argument 0
+push constant 1
+add
+push argument 1
+call Square.new 2
+pop this 5
+push argument 0
+push constant 1
+add
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 6
+goto IF_TRUE3
+label IF_FALSE3
+label IF_TRUE3
+push this 2
+push constant 4
+eq
+not
+if-goto IF_FALSE4
+push argument 0
+push argument 1
+call Square.new 2
+pop this 3
+push argument 0
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 4
+push argument 0
+push constant 1
+add
+push argument 1
+call Square.new 2
+pop this 5
+push argument 0
+push constant 1
+add
+push argument 1
+push constant 1
+sub
+call Square.new 2
+pop this 6
+goto IF_TRUE4
+label IF_FALSE4
+label IF_TRUE4
+push this 2
+push constant 5
+eq
+not
+if-goto IF_FALSE5
+push argument 0
+push argument 1
+call Square.new 2
+pop this 3
+push argument 0
+push constant 1
+add
+push argument 1
+call Square.new 2
+pop this 4
+push argument 0
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 5
+push argument 0
+push argument 1
+push constant 2
+add
+call Square.new 2
+pop this 6
+goto IF_TRUE5
+label IF_FALSE5
+label IF_TRUE5
+push this 2
+push constant 6
+eq
+not
+if-goto IF_FALSE6
+push argument 0
+push argument 1
+call Square.new 2
+pop this 3
+push argument 0
+push constant 1
+sub
+push argument 1
+call Square.new 2
+pop this 4
+push argument 0
+push argument 1
+push constant 1
+add
+call Square.new 2
+pop this 5
+push argument 0
+push argument 1
+push constant 2
+add
+call Square.new 2
+pop this 6
+goto IF_TRUE6
+label IF_FALSE6
+label IF_TRUE6
+push pointer 0
+call Tetris.draw 1
+pop temp 0
+push pointer 0
+return
+function Tetris.dispose 0
+push argument 0
+pop pointer 0
+push this 3
+call Square.dispose 1
+pop temp 0
+push this 4
+call Square.dispose 1
+pop temp 0
+push this 5
+call Square.dispose 1
+pop temp 0
+push this 6
+call Square.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Tetris.draw 0
+push argument 0
+pop pointer 0
+push this 3
+call Square.draw 1
+pop temp 0
+push this 4
+call Square.draw 1
+pop temp 0
+push this 5
+call Square.draw 1
+pop temp 0
+push this 6
+call Square.draw 1
+pop temp 0
+push constant 0
+return
+function Tetris.erase 0
+push argument 0
+pop pointer 0
+push this 3
+call Square.erase 1
+pop temp 0
+push this 4
+call Square.erase 1
+pop temp 0
+push this 5
+call Square.erase 1
+pop temp 0
+push this 6
+call Square.erase 1
+pop temp 0
+push constant 0
+return
+function Tetris.move 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Tetris.erase 1
+pop temp 0
+push this 3
+call Square.move 1
+pop temp 0
+push this 4
+call Square.move 1
+pop temp 0
+push this 5
+call Square.move 1
+pop temp 0
+push this 6
+call Square.move 1
+pop temp 0
+push this 0
+push constant 1
+add
+pop this 0
+push pointer 0
+call Tetris.draw 1
+pop temp 0
+push constant 0
+return
+function Tetris.up 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Tetris.erase 1
+pop temp 0
+push this 3
+call Square.up 1
+pop temp 0
+push this 4
+call Square.up 1
+pop temp 0
+push this 5
+call Square.up 1
+pop temp 0
+push this 6
+call Square.up 1
+pop temp 0
+push this 1
+push constant 1
+sub
+pop this 1
+push pointer 0
+call Tetris.draw 1
+pop temp 0
+push constant 0
+return
+function Tetris.down 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Tetris.erase 1
+pop temp 0
+push this 3
+call Square.down 1
+pop temp 0
+push this 4
+call Square.down 1
+pop temp 0
+push this 5
+call Square.down 1
+pop temp 0
+push this 6
+call Square.down 1
+pop temp 0
+push this 1
+push constant 1
+add
+pop this 1
+push pointer 0
+call Tetris.draw 1
+pop temp 0
+push constant 0
+return
+function Tetris.lrotate 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Tetris.erase 1
+pop temp 0
+push this 4
+push this 0
+push this 1
+call Square.lrotate 3
+pop temp 0
+push this 5
+push this 0
+push this 1
+call Square.lrotate 3
+pop temp 0
+push this 6
+push this 0
+push this 1
+call Square.lrotate 3
+pop temp 0
+push pointer 0
+call Tetris.draw 1
+pop temp 0
+push constant 0
+return
+function Tetris.rrotate 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Tetris.erase 1
+pop temp 0
+push this 4
+push this 0
+push this 1
+call Square.rrotate 3
+pop temp 0
+push this 5
+push this 0
+push this 1
+call Square.rrotate 3
+pop temp 0
+push this 6
+push this 0
+push this 1
+call Square.rrotate 3
+pop temp 0
+push pointer 0
+call Tetris.draw 1
+pop temp 0
+push constant 0
+return
+function Tetris.getx0 0
+push argument 0
+pop pointer 0
+push this 3
+call Square.getx 1
+return
+function Tetris.getx1 0
+push argument 0
+pop pointer 0
+push this 4
+call Square.getx 1
+return
+function Tetris.getx2 0
+push argument 0
+pop pointer 0
+push this 5
+call Square.getx 1
+return
+function Tetris.getx3 0
+push argument 0
+pop pointer 0
+push this 6
+call Square.getx 1
+return
+function Tetris.gety0 0
+push argument 0
+pop pointer 0
+push this 3
+call Square.gety 1
+return
+function Tetris.gety1 0
+push argument 0
+pop pointer 0
+push this 4
+call Square.gety 1
+return
+function Tetris.gety2 0
+push argument 0
+pop pointer 0
+push this 5
+call Square.gety 1
+return
+function Tetris.gety3 0
+push argument 0
+pop pointer 0
+push this 6
+call Square.gety 1
+return

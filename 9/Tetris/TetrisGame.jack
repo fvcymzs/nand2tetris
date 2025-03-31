@@ -1,0 +1,286 @@
+class TetrisGame {
+    field Array arr;
+    field boolean exit;
+    field int i0;
+    field int score;
+    field int seed;
+
+    constructor TetrisGame new() {
+        do Screen.clearScreen(); 
+        do Screen.setColor(true);
+        do Screen.drawRectangle(58, 18, 60, 222);
+        do Screen.drawRectangle(58, 18, 462, 20);
+        do Screen.drawRectangle(460, 18, 462, 222);
+        do Screen.drawRectangle(58, 220, 462, 222);
+        do Output.moveCursor(22,0);
+	    do Output.printString("Score: 0");
+
+        let arr = Array.new(200);
+        let i0 = 0;
+        while (i0 < 200) {
+            let arr[i0] = 0;
+            let i0 = i0 + 1;
+        }
+        let seed = 0;
+        let exit = false;
+        return this;
+    }
+
+    method void dispose() {
+        do arr.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void draw(int x, int y) {
+        do Screen.setColor(true);
+        do Screen.drawRectangle(x*20 + 61, y*20 + 21, x*20 + 79, y*20 + 39);
+        return;
+    }
+
+    method void erase(int x, int y) {
+        do Screen.setColor(false);
+        do Screen.drawRectangle(x*20 + 61, y*20 + 21, x*20 + 79, y*20 + 39);
+        return;
+    }
+
+    method boolean decrease() {
+        var int i, j;
+        var boolean dead;
+        var boolean decreaseline;
+        let dead = false;
+        let i = 19;
+
+        // arr[i][j] = arr[i*10+j]
+        while (i > -1) {
+            let j = 0;
+            let decreaseline = true;
+            while (j < 10) { // see if need decrease
+                if (arr[i*10+j] = 0) {
+                    let decreaseline = false;
+                }
+                let j = j + 1;
+            }
+            if (decreaseline) { // decrease the full line
+                let j = 0;
+                while (j < 10) {
+                    let arr[i*10+j] = 0;
+                    let j = j + 1;
+                }
+                let j = i * 10 + 9;
+                while (j > 9) {
+                    let arr[j] = arr[j-10];
+                    let j = j - 1;
+                }
+                while (j > -1) {
+                    let arr[j] = 0;
+                    let j = j - 1;
+                }
+                let score = score + 1;
+                do Output.moveCursor(22,7);
+                do Output.printInt(score);
+            }
+            else { // not full line
+                if (i = 0) { // see if dead
+                    let j = 0;
+                    while (j < 10) {
+                        if (arr[j] = 1) {
+                            let dead = true;
+                        }
+                        let j = j + 1;
+                    }
+                }
+                let i = i - 1;
+            }
+        }
+
+        if (~dead) { // draw new paint if not dead
+            let i = 0;
+            while (i < 20) {
+                let j = 0;
+                while (j < 10) {
+                    do erase(i, j);
+                    let j = j + 1;
+                }
+                let i = i + 1;
+            }
+            let i = 0;
+            while (i < 20) {
+                let j = 0;
+                while (j < 10) {
+                    if (arr[i*10+j] = 1) {
+                        do draw(i, j);
+                    }
+                    let j = j + 1;
+                }
+                let i = i + 1;
+            }
+        }
+
+        return dead;
+    }
+
+    method void movetoend() {
+        var Tetris tetris;
+        var char key;
+        var boolean moveend;
+        var int cnt, x0, x1, x2, x3, y0, y1, y2, y3, rx1, rx2, rx3, ry1, ry2, ry3;
+        let tetris = Tetris.new(1, 4, seed);
+        let moveend = false;
+        let cnt = 0;
+
+        while (~moveend) {
+            while ((key = 0) & (~moveend)) {
+                let key = Keyboard.keyPressed();
+                let cnt = cnt + 1;
+                if (cnt = 25) {
+                    let seed = seed + 1;
+                    let cnt = 0;
+                    let x0 = tetris.getx0();
+                    let x1 = tetris.getx1();
+                    let x2 = tetris.getx2();
+                    let x3 = tetris.getx3();
+                    let y0 = tetris.gety0();
+                    let y1 = tetris.gety1();
+                    let y2 = tetris.gety2();
+                    let y3 = tetris.gety3();
+                    if ((x0 < 19) & (x1 < 19) & (x2 < 19) & (x3 < 19)) {
+                        if ((arr[(x0+1)*10+y0] = 0) & (arr[(x1+1)*10+y1] = 0) & (arr[(x2+1)*10+y2] = 0) & (arr[(x3+1)*10+y3] = 0)) {
+                            do tetris.move();
+                        }
+                        else {
+                            let arr[x0*10+y0] = 1;
+                            let arr[x1*10+y1] = 1;
+                            let arr[x2*10+y2] = 1;
+                            let arr[x3*10+y3] = 1;
+                            let moveend = true;
+                        }
+                    }
+                    else {
+                        let arr[x0*10+y0] = 1;
+                        let arr[x1*10+y1] = 1;
+                        let arr[x2*10+y2] = 1;
+                        let arr[x3*10+y3] = 1;
+                        let moveend = true;
+                    }
+                    if (moveend) {
+                        let exit = decrease();
+                    }
+                }
+                do Sys.wait(10);
+            }
+
+            let x0 = tetris.getx0();
+            let x1 = tetris.getx1();
+            let x2 = tetris.getx2();
+            let x3 = tetris.getx3();
+            let y0 = tetris.gety0();
+            let y1 = tetris.gety1();
+            let y2 = tetris.gety2();
+            let y3 = tetris.gety3();
+
+            if ((key = 140) & (~moveend)) { // esc key
+                let moveend = true;
+                let exit = true;
+            }
+            if ((key = 131) & (~moveend)) { // up arrow
+                let seed = seed + 1;
+                if ((y0 > 0) & (y1 > 0) & (y2 > 0) & (y3 > 0)) {
+                    if ((arr[x0*10+y0-1] = 0) & (arr[x1*10+y1-1] = 0) & (arr[x2*10+y2-1] = 0) & (arr[x3*10+y3-1] = 0)) {
+                        do tetris.up();
+                    }
+                }
+            }
+            if ((key = 133) & (~moveend)) { // down arrow
+                let seed = seed + 1;
+                if ((y0 < 9) & (y1 < 9) & (y2 < 9) & (y3 < 9)) {
+                    if ((arr[x0*10+y0+1] = 0) & (arr[x1*10+y1+1] = 0) & (arr[x2*10+y2+1] = 0) & (arr[x3*10+y3+1] = 0)) {
+                        do tetris.down();
+                    }
+                }
+            }
+            if ((key = 130) & (~moveend)) { // left arrow
+                let seed = seed + 1;
+                let rx1 = y1 - y0 + x0;
+                let rx2 = y2 - y0 + x0;
+                let rx3 = y3 - y0 + x0;
+                let ry1 = x0 + y0 - x1;
+                let ry2 = x0 + y0 - x2;
+                let ry3 = x0 + y0 - x3;
+                if ((rx1 > -1) & (rx1 < 20) & (rx2 > -1) & (rx2 < 20) & (rx3 > -1) & (rx3 < 20) &
+                    (ry1 > -1) & (ry1 < 10) & (ry2 > -1) & (ry2 < 10) & (ry3 > -1) & (ry3 < 10)) {
+                    if ((arr[rx1*10+ry1] = 0) & (arr[rx2*10+ry2] = 0) & (arr[rx3*10+ry3] = 0)) {
+                        do tetris.lrotate();
+                    }
+                }
+            }
+            if ((key = 132) & (~moveend)) { // right arrow
+                let seed = seed + 1;
+                let rx1 = x0 + y0 - y1;
+                let rx2 = x0 + y0 - y2;
+                let rx3 = x0 + y0 - y3;
+                let ry1 = x1 - x0 + y0;
+                let ry2 = x2 - x0 + y0;
+                let ry3 = x3 - x0 + y0;
+                if ((rx1 > -1) & (rx1 < 20) & (rx2 > -1) & (rx2 < 20) & (rx3 > -1) & (rx3 < 20) &
+                    (ry1 > -1) & (ry1 < 10) & (ry2 > -1) & (ry2 < 10) & (ry3 > -1) & (ry3 < 10)) {
+                    if ((arr[rx1*10+ry1] = 0) & (arr[rx2*10+ry2] = 0) & (arr[rx3*10+ry3] = 0)) {
+                        do tetris.rrotate();
+                    }
+                }
+            }
+
+            while (~(key = 0) & (~moveend)) {
+                let key = Keyboard.keyPressed();
+                let cnt = cnt + 1;
+                if (cnt = 25) {
+                    let cnt = 0;
+                    let seed = seed + 1;
+                    let x0 = tetris.getx0();
+                    let x1 = tetris.getx1();
+                    let x2 = tetris.getx2();
+                    let x3 = tetris.getx3();
+                    let y0 = tetris.gety0();
+                    let y1 = tetris.gety1();
+                    let y2 = tetris.gety2();
+                    let y3 = tetris.gety3();
+                    if ((x0 < 19) & (x1 < 19) & (x2 < 19) & (x3 < 19)) {
+                        if ((arr[(x0+1)*10+y0] = 0) & (arr[(x1+1)*10+y1] = 0) & (arr[(x2+1)*10+y2] = 0) & (arr[(x3+1)*10+y3] = 0)) {
+                            do tetris.move();
+                        }
+                        else {
+                            let arr[x0*10+y0] = 1;
+                            let arr[x1*10+y1] = 1;
+                            let arr[x2*10+y2] = 1;
+                            let arr[x3*10+y3] = 1;
+                            let moveend = true;
+                        }
+                    }
+                    else {
+                        let arr[x0*10+y0] = 1;
+                        let arr[x1*10+y1] = 1;
+                        let arr[x2*10+y2] = 1;
+                        let arr[x3*10+y3] = 1;
+                        let moveend = true;
+                    }
+                    if (moveend) {
+                        let exit = decrease();
+                    }
+                }
+                do Sys.wait(10);
+            }
+        }
+
+        do tetris.dispose();
+        return;
+    }
+
+    method void run() {
+        while (~exit) {
+            do movetoend();
+        }
+        do Output.moveCursor(10,27);
+	    do Output.printString("Game Over");
+        return;
+    }   
+}

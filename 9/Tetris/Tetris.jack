@@ -1,0 +1,163 @@
+class Tetris {
+    field int cx, cy;
+    field int type;
+    field Square square0, square1, square2, square3;
+
+    constructor Tetris new(int ax, int ay, int seed) {
+        let cx = ax;
+        let cy = ay;
+        let type = seed - ((seed / 7) * 7);
+        if (type = 0) {
+            let square0 = Square.new(ax, ay);
+            let square1 = Square.new(ax + 1, ay);
+            let square2 = Square.new(ax, ay + 1);
+            let square3 = Square.new(ax + 1, ay + 1);
+        }
+        if (type = 1) {
+            let square0 = Square.new(ax, ay);
+            let square1 = Square.new(ax, ay - 1);
+            let square2 = Square.new(ax, ay + 1);
+            let square3 = Square.new(ax, ay + 2);
+        }
+        if (type = 2) {
+            let square0 = Square.new(ax, ay);
+            let square1 = Square.new(ax - 1, ay);
+            let square2 = Square.new(ax + 1, ay);
+            let square3 = Square.new(ax, ay + 1);
+        }
+        if (type = 3) {
+            let square0 = Square.new(ax, ay);
+            let square1 = Square.new(ax, ay - 1);
+            let square2 = Square.new(ax + 1, ay);
+            let square3 = Square.new(ax + 1, ay + 1);
+        }
+        if (type = 4) {
+            let square0 = Square.new(ax, ay);
+            let square1 = Square.new(ax, ay + 1);
+            let square2 = Square.new(ax + 1, ay);
+            let square3 = Square.new(ax + 1, ay - 1);
+        }
+        if (type = 5) {
+            let square0 = Square.new(ax, ay);
+            let square1 = Square.new(ax + 1, ay);
+            let square2 = Square.new(ax, ay + 1);
+            let square3 = Square.new(ax, ay + 2);
+        }
+        if (type = 6) {
+            let square0 = Square.new(ax, ay);
+            let square1 = Square.new(ax - 1, ay);
+            let square2 = Square.new(ax, ay + 1);
+            let square3 = Square.new(ax, ay + 2);
+        }
+        do draw();
+        return this;
+    }
+
+    method void dispose() {
+        do square0.dispose();
+        do square1.dispose();
+        do square2.dispose();
+        do square3.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+    
+    method void draw() {
+        do square0.draw();
+        do square1.draw();
+        do square2.draw();
+        do square3.draw();
+        return;
+    }
+
+    method void erase() {
+        do square0.erase();
+        do square1.erase();
+        do square2.erase();
+        do square3.erase();
+        return;
+    }
+
+    method void move() {
+        do erase();
+        do square0.move();
+        do square1.move();
+        do square2.move();
+        do square3.move();
+        let cx = cx + 1;
+        do draw();
+        return;
+    }
+
+    method void up() {
+        do erase();
+        do square0.up();
+        do square1.up();
+        do square2.up();
+        do square3.up();
+        let cy = cy - 1;
+        do draw();
+        return;
+    }
+
+    method void down() {
+        do erase();
+        do square0.down();
+        do square1.down();
+        do square2.down();
+        do square3.down();
+        let cy = cy + 1;
+        do draw();
+        return;
+    }
+
+    method void lrotate() {
+        do erase();
+        do square1.lrotate(cx, cy);
+        do square2.lrotate(cx, cy);
+        do square3.lrotate(cx, cy);
+        do draw();
+        return;
+    }
+
+    method void rrotate() {
+        do erase();
+        do square1.rrotate(cx, cy);
+        do square2.rrotate(cx, cy);
+        do square3.rrotate(cx, cy);
+        do draw();
+        return;
+    }
+
+    method int getx0() {
+        return square0.getx();
+    }
+
+    method int getx1() {
+        return square1.getx();
+    }
+
+    method int getx2() {
+        return square2.getx();
+    }
+
+    method int getx3() {
+        return square3.getx();
+    }
+
+    method int gety0() {
+        return square0.gety();
+    }
+
+    method int gety1() {
+        return square1.gety();
+    }
+
+    method int gety2() {
+        return square2.gety();
+    }
+
+    method int gety3() {
+        return square3.gety();
+    }
+}

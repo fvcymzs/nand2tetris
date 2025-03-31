@@ -1,0 +1,154 @@
+function Square.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push pointer 0
+return
+function Square.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Square.draw 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 20
+call Math.multiply 2
+push constant 61
+add
+push this 1
+push constant 20
+call Math.multiply 2
+push constant 21
+add
+push this 0
+push constant 20
+call Math.multiply 2
+push constant 79
+add
+push this 1
+push constant 20
+call Math.multiply 2
+push constant 39
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Square.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 0
+push constant 20
+call Math.multiply 2
+push constant 61
+add
+push this 1
+push constant 20
+call Math.multiply 2
+push constant 21
+add
+push this 0
+push constant 20
+call Math.multiply 2
+push constant 79
+add
+push this 1
+push constant 20
+call Math.multiply 2
+push constant 39
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Square.move 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+add
+pop this 0
+push constant 0
+return
+function Square.up 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+sub
+pop this 1
+push constant 0
+return
+function Square.down 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+add
+pop this 1
+push constant 0
+return
+function Square.lrotate 1
+push argument 0
+pop pointer 0
+push this 0
+pop local 0
+push this 1
+push argument 2
+sub
+push argument 1
+add
+pop this 0
+push argument 1
+push argument 2
+add
+push local 0
+sub
+pop this 1
+push constant 0
+return
+function Square.rrotate 1
+push argument 0
+pop pointer 0
+push this 0
+pop local 0
+push argument 1
+push argument 2
+add
+push this 1
+sub
+pop this 0
+push local 0
+push argument 1
+sub
+push argument 2
+add
+pop this 1
+push constant 0
+return
+function Square.getx 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Square.gety 0
+push argument 0
+pop pointer 0
+push this 1
+return
